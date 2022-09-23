@@ -1,0 +1,201 @@
+
+Perfect Numbers
+---------------
+
+
+Q1. Roughly how long did it take your computer to do the search? How many perfect numbers were found and what were they?
+A1. 
+Answer:  i. It takes 13.388s in my computer to do.
+		ii. 4 numbers are found. They are 6, 28, 496, and 8128.
+		The Operation log is shown in the following:
+		
+Found perfect number: 6
+Found perfect number: 28
+Found perfect number: 496
+Found perfect number: 8128
+...
+Done searching up to 40000
+
+main() completed.
+time = 13.388s
+
+Q2. Record the timing results for `findPerfects` that you observed into a table.
+A2. 
+	-------------------------
+	|	Number	| Time[sec]	|
+	-------------------------
+	|	25000	|	1.230	|
+	-------------------------
+	|	50000	|	4.234	|
+	-------------------------
+	|	100000	|	16.539	|
+	-------------------------
+	|	200000	|	65.177	|
+	-------------------------
+	Operation time with findperfect number diagram are shown in https://www.desmos.com/calculator/tti22oxkf0
+	
+	Operation log are shown as following:
+	
+Correct (STUDENT_TEST, perfect.cpp:127) Time Trial for the last one is 1 min 
+    Line 128 TIME_OPERATION findPerfects(25000) (size =    25000) completed in    1.230 secs
+    Line 129 TIME_OPERATION findPerfects(50000) (size =    50000) completed in    4.234 secs
+    Line 130 TIME_OPERATION findPerfects(100000) (size =   100000) completed in   16.539 secs
+    Line 131 TIME_OPERATION findPerfects(200000) (size =   200000) completed in   65.177 secs
+	
+
+
+Q3. Does it take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000? Why or why not? Does it take the same amount of work for `findPerfects` to search the range of numbers from 1-1000 as it does to search the numbers from 1000-2000? Why or why not?
+A3. 
+Answer: 
+		i. NO, it doesn't take the same amount of work to compute `isPerfect` on the number 10 as it does on the number 1000. Because 'isPerfect' is belong to the 'for' loop, that means any time we add the target number it need to compare more numbers.
+		ii. No, It doesn't take the same amount of work for `findPerfects` to search the range of numbers from 1-1000 and from 1000-2000. During 1-1000 for `findPerfects`, 4 perfect numbers are found and print to monitor. But for 1000-2000, only `isPerfect` is operated and not print out.
+
+Correct (STUDENT_TEST, perfect.cpp:134) Compare 10, 1000, 2000, 3000, work difference 
+    Line 135 TIME_OPERATION findPerfects(10) (size =       10) completed in    0.090 secs
+    Line 136 TIME_OPERATION findPerfects(1000) (size =     1000) completed in    0.151 secs
+    Line 137 TIME_OPERATION findPerfects(2000) (size =     2000) completed in    0.152 secs
+    Line 138 TIME_OPERATION findPerfects(3000) (size =     3000) completed in    0.182 secs
+
+Found perfect number: 6	
+Found perfect number: 28
+Found perfect number: 496
+
+Done searching up to 1000
+
+Found perfect number: 6
+Found perfect number: 28
+Found perfect number: 496
+
+Done searching up to 2000
+
+Q4. Extrapolate from the data you gathered and make a prediction: how long will it take `findPerfects` to reach the fifth perfect number?
+A4. 
+	It will take approximate 1 600 000s(444.44h) for `findPerfects` to reach the fifth perfect number, base on the Q2. Because 33000000 is between 25600000-51200000, base on the diagram in the attachment can guess it will take this time.
+	https://www.desmos.com/calculator/txsccjhxw1
+
+Q5. Do any of the tests still pass even with this broken function? Why or why not?
+A5. 
+	These tests are still pass even with this broken function.
+	Because in order to  find perfec number, start from 0 or 1 is same.
+	
+	P.s. if we want get expected error, we need modify the findPerfects function like this:
+	
+	    if(stop < 0) {
+			error("Unexpected negative number");
+        }else{
+
+			for (long num = 1; num < stop; num++) {
+				if (isPerfect(num)) {
+				cout << "Found perfect number: " << num << endl;
+				}
+				if (num % 10000 == 0) cout << "." << flush; // progress bar
+				}
+		}		
+
+Q6. Describe the testing strategy you used for your test cases to confirm `smarterSum` is working correctly.
+A6. 
+	the `smarterSum` algorithm: 
+	The algorithm is consider the root of N first. 
+	Then make the divisor summation, but should  eliminate the number "1" and two divisors are same situation.
+		
+	long smarterSum(long n) {
+    long total = 0;
+
+        for (long divisor = 1; divisor <= long(sqrt(n)); divisor++) {
+            if (n % divisor == 0) {
+                total += divisor;
+                if(divisor != 1 && n / divisor != divisor){ //consider two divisor equal
+                    total += n/divisor;
+                }
+            }
+        }
+        }
+    return total;
+
+
+Q7. Record your timing results for `findPerfectsSmarter` into a table.
+A7. 
+	-------------------------
+	|	Number	| Time[sec]	|
+	-------------------------
+	|	500000	|	3.219	|
+	-------------------------
+	|	1000000	|	7.965	|
+	-------------------------
+	|	2000000	|	20.991	|
+	-------------------------
+	|	4000000	|	55.865	|
+	-------------------------	
+
+Correct (STUDENT_TEST, line 201) Time Trial for the last one is 1 min 
+    Line 202 TIME_OPERATION findPerfectsSmarter(500000) (size =   500000) completed in    3.219 secs
+    Line 203 TIME_OPERATION findPerfectsSmarter(1000000) (size =  1000000) completed in    7.965 secs
+    Line 204 TIME_OPERATION findPerfectsSmarter(2000000) (size =  2000000) completed in   20.991 secs
+    Line 205 TIME_OPERATION findPerfectsSmarter(4000000) (size =  4000000) completed in   55.865 secs
+
+Q8. Make a prediction: how long will `findPerfectsSmarter` take to reach the fifth perfect number?
+A8. 
+	From the diagram as following, the fifth perfect number will takes approximate 1200s
+	https://www.desmos.com/calculator/klebccfnpt
+
+Q9. Explain how you chose your specific test cases and why they lead you to be confident `findNthPerfectEuclid` is working correctly.
+A9. 
+	During the debug processing, n=1, always can not be correct. Finally n=1 pass the specific test that means the target is achieved. 
+	
+long findNthPerfectEuclid(long n) {
+    long M_n; // Mersenne
+    long k=1; // countor
+    long long perfectNumber =0 ;
+    for (k=1; k<=12; k++){
+        M_n = pow(2,k)-1;
+        if(smarterSum(M_n)==1 && M_n != 1 ){
+            perfectNumber = pow(2,k-1) * M_n;
+            cout << k << "th perfect number is " << perfectNumber << endl;
+            if(k == n){	//Find the n th perfect number.
+                break;
+            }
+        }
+    }
+    return perfectNumber;
+}
+
+Soundex
+-------
+
+Q10. What is the Soundex code for "Angelou"? What is the code for your own surname?
+A10. 
+	Angelou --> A5240
+	Zhao    --> Z0000
+
+Q11. Before writing any code, brainstorm your plan of attack and sketch how you might decompose the work into smaller tasks. Briefly describe your decomposition strategy.
+A11. 
+	i.  Discard all non-letter
+	ii. Replace the letters to numbers 
+	iii.Delete the overlap letters
+	iv. Replace the 1st number with the 1st letter of surname which the letter using capital. 
+	v.  Delete all 0 
+	vi. If the code less than 4, add 0 until it is 4 letters.
+	vii.If the code more than 4, delete the tail letter until it is 4 letters.
+
+Q12. Think about one or more examples of a class of names that the Soundex system might not work well for. Explain what this class of names is and why the system might incorrectly group them or mis-categorize one of the names.
+A12. 
+	i.
+	If any surname include a blank space, the `Soundex` will stop work well. Because the `Soundex` didn't consider about this situation during the coding process.
+	Not working example:
+	Da Vinci
+	Von kaman
+	ii.
+	`Soundex` doesn't Consider other countries names such as include Russia, German alphabet. If some peoples' names are not using English, thiS system will not work.
+	Not working examples:
+	Alenin (Аленин)
+	Müller, occupation (miller)
+	
+	
+
+Q13. Suppose you are a software engineer working for the U.S. government. You have been tasked with implementing a system that collects names as part of the Census survey and analyzes these names using a phonetic algorithm. Your boss suggests using Soundex and notes that the algorithm is only expected to work for ASCII-encoded strings, since supporting Unicode would require extra work and time. What would your response be and why? What representational harms might result from building a system that exclusively uses Soundex and/or ASCII?
+A13. 
+	I will choose supporting Unicode. As the Q12 mentioned, if we want `Soundex ` support for 	more people from global, Unicode is a good choice.
+	i. Using `Soundex ` will only support English alphabet.
+	ii. Using Unicode will request more storage, because of the Unicode takes more bytes than ASCII.
+
+
