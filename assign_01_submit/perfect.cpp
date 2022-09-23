@@ -82,7 +82,7 @@ long smarterSum(long n) {
 //        }
 //    else{
         for (long divisor = 1; divisor <= long(sqrt(n)); divisor++) {
-            if (n % divisor == 0) {
+            if (n % divisor == 0 && n != 1) { //n!=1, was not considered before
                 total += divisor;
                 if(divisor != 1 && n / divisor != divisor){ //consider two divisor equal
                     total += n/divisor;
@@ -135,6 +135,24 @@ long findNthPerfectEuclid(long n) {
     long M_n; // Mersenne
     long k=1; // countor
     long long perfectNumber =0 ; // in order to get more numbers, without overflow
+
+    while(k<=n){
+        k++; // Make k++ first can avoid the bug. Otherwise, if n==1, perferct number == 1.
+        M_n = pow(2,k)-1; //Cal Mersenne
+        if(smarterSum(M_n)==1 && M_n != 1 ){ //consider M_n cant be 1
+            perfectNumber = pow(2,k-1) * M_n;
+            }
+        }
+
+    cout << n << "th perfect number is " << perfectNumber << endl;
+    return perfectNumber;
+}
+
+/* 1st assignment submit version:
+ *
+ *     long M_n; // Mersenne
+    long k=1; // countor
+    long long perfectNumber =0 ; // in order to get more numbers, without overflow
     for (k=1; k<=12; k++){
         M_n = pow(2,k)-1; //Cal Mersenne
         if(smarterSum(M_n)==1 && M_n != 1 ){ //consider M_n cant be 1
@@ -146,7 +164,7 @@ long findNthPerfectEuclid(long n) {
         }
     }
     return perfectNumber;
-}
+ */
 
 
 /* * * * * * Test Cases * * * * * */
@@ -221,6 +239,9 @@ STUDENT_TEST("Check expected error with different negative number result") {
     EXPECT_EQUAL(divisorSum(64),smarterSum(64));
     EXPECT_EQUAL(divisorSum(65),smarterSum(65));
     EXPECT_EQUAL(divisorSum(256),smarterSum(256));
+    EXPECT_EQUAL(divisorSum(1),smarterSum(1)); // n == 1 or 0 were not considered in the 1st time submit
+    EXPECT_EQUAL(divisorSum(2),smarterSum(2));
+    EXPECT_EQUAL(divisorSum(0),smarterSum(0));
 
 }
 
