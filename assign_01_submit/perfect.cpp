@@ -127,25 +127,45 @@ void findPerfectsSmarter(long stop) {
 
 /* Using Euclid way to find perfect numbers.
  * This function does an exhaustive search for perfect numbers.
- * It takes one argument `n` and searches the 1st to n th perfect numbers,
+ * It takes one argument `n` and searches from the 1st to n(th) perfect numbers,
  * checking each number to see whether it is perfect and if so,
  * printing it to the console.
+ * Finally, return to the N (th) Perfect number.
+ * Ref link: https://h8pqt7tpdf.feishu.cn/docx/doxcnfgZgMx9PUUnWUMKMTih4Ae
  */
 long findNthPerfectEuclid(long n) {
-    long M_n; // Mersenne
+    long M_n; // Mersenne number
+     // 1. Initialize the countor.
     long k=1; // countor
     long long perfectNumber =0 ; // in order to get more numbers, without overflow
 
-    while(k<=n){
-        k++; // Make k++ first can avoid the bug. Otherwise, if n==1, perferct number == 1.
+    while(true){ // 5.b Repeat the step 2.
+        // 2. Calculate the Mersenne number
         M_n = pow(2,k)-1; //Cal Mersenne
-        if(smarterSum(M_n)==1 && M_n != 1 ){ //consider M_n cant be 1
-            perfectNumber = pow(2,k-1) * M_n;
+        // 3. Check 2nd step number is Prime or not. If it's prime, Calculate perfect number
+        if(smarterSum(M_n)==1){  //This can be a independent func eg. bool(xxxx)
+        // 3.a Make the result is the N(th) perfect number
+        n -= 1;
+            if(n==0){
+                // 4. If it's prime, Calculate perfect number. 
+                perfectNumber = pow(2,k-1) * M_n;
+                return perfectNumber;
             }
         }
-
-    cout << n << "th perfect number is " << perfectNumber << endl;
-    return perfectNumber;
+        // 5.a Increase the countor k
+        k++;
+    }
+    cout << n << "(th) perfect number is " << perfectNumber << endl;
+    return 0;
+}
+//Test cases
+STUDENT_TEST("Calculate the N (th) Perfect number, through Euclid method ") {
+    //Expect the result is same with original method
+    EXPECT(isPerfect(findNthPerfectEuclid(1)));
+    EXPECT(isPerfect(findNthPerfectEuclid(2)));
+    //Expect the n (th) Perfect number
+    EXPECT_EQUAL(findNthPerfectEuclid(1),6);
+    EXPECT_EQUAL(findNthPerfectEuclid(2),28);
 }
 
 /* 1st assignment submit version:
